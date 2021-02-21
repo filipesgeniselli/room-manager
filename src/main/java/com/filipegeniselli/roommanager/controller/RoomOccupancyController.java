@@ -5,9 +5,9 @@ import com.filipegeniselli.roommanager.dto.OptimizedRooms;
 import com.filipegeniselli.roommanager.dto.RoomOccupancy;
 import com.filipegeniselli.roommanager.service.RoomOccupancyService;
 
+import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,10 +20,9 @@ public class RoomOccupancyController {
     @Autowired
     private RoomOccupancyService roomOccupancyService;
 
-    @PostMapping("/optmize")
-    public ResponseEntity<OptimizedRooms> postMethodName(@RequestBody RoomOccupancy rooms) {
-
-        return ResponseEntity.ok(new OptimizedRooms(null, null));
+    @PostMapping(value = "/optmize", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public OptimizedRooms postMethodName(@RequestBody RoomOccupancy rooms) {
+        return roomOccupancyService.optimizeRooms(rooms);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

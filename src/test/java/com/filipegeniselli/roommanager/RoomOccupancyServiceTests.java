@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import com.filipegeniselli.roommanager.dto.OptimizedRooms;
 import com.filipegeniselli.roommanager.dto.RoomOccupancy;
@@ -17,7 +20,7 @@ public class RoomOccupancyServiceTests {
     
     RoomOccupancyService roomOccupancyService = new RoomOccupancyService(new BigDecimal(100));
 
-    private final BigDecimal[] potentialGuestValues = new BigDecimal[] {
+    private final BigDecimal[] standardPotentialGuestValues = new BigDecimal[] {
         new BigDecimal(23),
         new BigDecimal(45),
         new BigDecimal(155),
@@ -30,9 +33,35 @@ public class RoomOccupancyServiceTests {
         new BigDecimal(209),
     };
 
+    private final BigDecimal[] equalsPotentialGuestValues = new BigDecimal[] {
+        new BigDecimal(200),
+        new BigDecimal(200),
+        new BigDecimal(200),
+        new BigDecimal(200),
+        new BigDecimal(200),
+        new BigDecimal(200),
+        new BigDecimal(200),
+        new BigDecimal(200),
+        new BigDecimal(200),
+        new BigDecimal(200),
+    };
+
+    private final BigDecimal[] someEqualsPotentialGuestValues = new BigDecimal[] {
+        new BigDecimal(50),
+        new BigDecimal(50),
+        new BigDecimal(95),
+        new BigDecimal(310),
+        new BigDecimal(95),
+        new BigDecimal(420),
+        new BigDecimal(355),
+        new BigDecimal(200),
+        new BigDecimal(200),
+        new BigDecimal(200),
+    };
+
     @Test
     public void scenario_3Premium3Economy() {
-        OptimizedRooms result = roomOccupancyService.optimizeRooms(new RoomOccupancy(3, 3, potentialGuestValues));
+        OptimizedRooms result = roomOccupancyService.optimizeRooms(new RoomOccupancy(3, 3, standardPotentialGuestValues));
         assertNotNull(result);
         //Room usage
         assertEquals(3, result.getPremiumUsage().getRoomTotalUsage());
@@ -44,7 +73,7 @@ public class RoomOccupancyServiceTests {
 
     @Test
     public void scenario_7Premium5Economy() {
-        OptimizedRooms result = roomOccupancyService.optimizeRooms(new RoomOccupancy(7, 5, potentialGuestValues));
+        OptimizedRooms result = roomOccupancyService.optimizeRooms(new RoomOccupancy(7, 5, standardPotentialGuestValues));
         assertNotNull(result);
         //Room usage
         assertEquals(6, result.getPremiumUsage().getRoomTotalUsage());
@@ -56,7 +85,7 @@ public class RoomOccupancyServiceTests {
 
     @Test
     public void scenario_2Premium7Economy() {
-        OptimizedRooms result = roomOccupancyService.optimizeRooms(new RoomOccupancy(2, 7, potentialGuestValues));
+        OptimizedRooms result = roomOccupancyService.optimizeRooms(new RoomOccupancy(2, 7, standardPotentialGuestValues));
         assertNotNull(result);
         //Room usage
         assertEquals(2, result.getPremiumUsage().getRoomTotalUsage());
@@ -68,7 +97,7 @@ public class RoomOccupancyServiceTests {
 
     @Test
     public void scenario_7Premium1Economy() {
-        OptimizedRooms result = roomOccupancyService.optimizeRooms(new RoomOccupancy(7, 1, potentialGuestValues));
+        OptimizedRooms result = roomOccupancyService.optimizeRooms(new RoomOccupancy(7, 1, standardPotentialGuestValues));
         assertNotNull(result);
         //Room usage
         assertEquals(7, result.getPremiumUsage().getRoomTotalUsage());
@@ -76,6 +105,41 @@ public class RoomOccupancyServiceTests {
         //Total money
         assertEquals(new BigDecimal(1153), result.getPremiumUsage().getRoomTotalMoney());
         assertEquals(new BigDecimal(45), result.getEconomyUsage().getRoomTotalMoney());
+    }
+
+    @Test
+    public void scenario_4Premium5Economy() {
+        OptimizedRooms result = roomOccupancyService.optimizeRooms(new RoomOccupancy(4, 5, someEqualsPotentialGuestValues));
+        assertNotNull(result);
+        //Room usage
+        assertEquals(4, result.getPremiumUsage().getRoomTotalUsage());
+        assertEquals(4, result.getEconomyUsage().getRoomTotalUsage());
+        //Total money
+        assertEquals(new BigDecimal(1285), result.getPremiumUsage().getRoomTotalMoney());
+        assertEquals(new BigDecimal(290), result.getEconomyUsage().getRoomTotalMoney());
+    }
+
+    @Test
+    public void scenario_3Premium2Economy() {
+        OptimizedRooms result = roomOccupancyService.optimizeRooms(new RoomOccupancy(3, 2, equalsPotentialGuestValues));
+        assertNotNull(result);
+        //Room usage
+        assertEquals(3, result.getPremiumUsage().getRoomTotalUsage());
+        assertEquals(0, result.getEconomyUsage().getRoomTotalUsage());
+        //Total money
+        assertEquals(new BigDecimal(600), result.getPremiumUsage().getRoomTotalMoney());
+        assertEquals(new BigDecimal(0), result.getEconomyUsage().getRoomTotalMoney());
+    }
+
+    @Test
+    public void scenario_longArray() {
+        List<BigDecimal> randomValues = new ArrayList<>();
+        for(int i = 0; i < 1000000; i++){
+            randomValues.add(new BigDecimal(new Random(System.currentTimeMillis()).nextInt(400)));
+        }
+
+        OptimizedRooms result = roomOccupancyService.optimizeRooms(new RoomOccupancy(350, 420, someEqualsPotentialGuestValues));
+        assertNotNull(result);
     }
 
 }

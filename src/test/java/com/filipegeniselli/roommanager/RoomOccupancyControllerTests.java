@@ -10,10 +10,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.filipegeniselli.roommanager.controller.RoomOccupancyController;
+import com.filipegeniselli.roommanager.dto.OptimizedRooms;
+import com.filipegeniselli.roommanager.dto.RoomOccupancy;
 import com.filipegeniselli.roommanager.service.RoomOccupancyService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 
 @WebMvcTest(controllers = RoomOccupancyController.class)
 public class RoomOccupancyControllerTests {
@@ -46,6 +50,9 @@ public class RoomOccupancyControllerTests {
 
     @Test
     public void returnsOkWhenValidBodyIsSent() throws Exception {
+        given(roomOccupancyService.optimizeRooms(any(RoomOccupancy.class)))
+        .willAnswer((invocation) -> new OptimizedRooms(null, null));
+
         mockMvc.perform(post("/optmize")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
