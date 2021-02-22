@@ -30,7 +30,7 @@ public class RoomOccupancyControllerTests {
 
     @Test
     public void returnsErrorWhenNoRoomsAvailable() throws Exception {
-        mockMvc.perform(post("/optmize")
+        mockMvc.perform(post("/optimize")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content("{ \"premiumRooms\": 0, \"economyRooms\": 0, \"potentialGuestsValues\": [] }"))
@@ -40,7 +40,7 @@ public class RoomOccupancyControllerTests {
 
     @Test
     public void returnsErrorWhenNoPotentialGuestsSent() throws Exception {
-        mockMvc.perform(post("/optmize")
+        mockMvc.perform(post("/optimize")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content("{ \"premiumRooms\": 10, \"economyRooms\": 5, \"potentialGuestsValues\": [] }"))
@@ -53,7 +53,7 @@ public class RoomOccupancyControllerTests {
         given(roomOccupancyService.optimizeRooms(any(RoomOccupancy.class)))
         .willAnswer((invocation) -> new OptimizedRooms(null, null));
 
-        mockMvc.perform(post("/optmize")
+        mockMvc.perform(post("/optimize")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content("{ \"premiumRooms\": 10, \"economyRooms\": 5, \"potentialGuestsValues\": [30, 50, 100, 152] }"))

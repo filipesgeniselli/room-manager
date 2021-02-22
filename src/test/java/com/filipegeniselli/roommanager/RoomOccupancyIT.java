@@ -32,7 +32,7 @@ public class RoomOccupancyIT {
     @Test
     public void scenario_3Premium3Economy() throws Exception {
 
-        mockMvc.perform(post("/optmize")
+        mockMvc.perform(post("/optimize")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"premiumRooms\": 3, \"economyRooms\": 3, \"potentialGuestsValues\": [23, 45, 155, 374, 22, 99, 100, 101, 115, 209] }"))
                 .andExpect(status().is2xxSuccessful())
@@ -45,7 +45,7 @@ public class RoomOccupancyIT {
     @Test
     public void scenario_7Premium5Economy() throws Exception {
 
-        mockMvc.perform(post("/optmize")
+        mockMvc.perform(post("/optimize")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"premiumRooms\": 7, \"economyRooms\": 5, \"potentialGuestsValues\": [23, 45, 155, 374, 22, 99, 100, 101, 115, 209] }"))
                 .andExpect(status().is2xxSuccessful())
@@ -58,7 +58,7 @@ public class RoomOccupancyIT {
     @Test
     public void scenario_2Premium7Economy() throws Exception {
 
-        mockMvc.perform(post("/optmize")
+        mockMvc.perform(post("/optimize")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"premiumRooms\": 2, \"economyRooms\": 7, \"potentialGuestsValues\": [23, 45, 155, 374, 22, 99, 100, 101, 115, 209] }"))
                 .andExpect(status().is2xxSuccessful())
@@ -71,7 +71,7 @@ public class RoomOccupancyIT {
     @Test
     public void scenario_7Premium1Economy() throws Exception {
 
-        mockMvc.perform(post("/optmize")
+        mockMvc.perform(post("/optimize")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"premiumRooms\": 7, \"economyRooms\": 1, \"potentialGuestsValues\": [23, 45, 155, 374, 22, 99, 100, 101, 115, 209] }"))
                 .andExpect(status().is2xxSuccessful())

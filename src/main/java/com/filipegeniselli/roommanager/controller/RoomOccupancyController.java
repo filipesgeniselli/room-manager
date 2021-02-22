@@ -20,7 +20,7 @@ public class RoomOccupancyController {
     @Autowired
     private RoomOccupancyService roomOccupancyService;
 
-    @PostMapping(value = "/optmize", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/optimize", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public OptimizedRooms postMethodName(@RequestBody RoomOccupancy rooms) {
         return roomOccupancyService.optimizeRooms(rooms);
     }

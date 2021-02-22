@@ -134,11 +134,13 @@ public class RoomOccupancyServiceTests {
     @Test
     public void scenario_longArray() {
         List<BigDecimal> randomValues = new ArrayList<>();
-        for(int i = 0; i < 1000000; i++){
-            randomValues.add(new BigDecimal(new Random(System.currentTimeMillis()).nextInt(400)));
+        Random random = new Random(System.currentTimeMillis());
+
+        for(int i = 0; i < 10000000; i++){
+            randomValues.add(new BigDecimal(random.nextInt(400)));
         }
 
-        OptimizedRooms result = roomOccupancyService.optimizeRooms(new RoomOccupancy(350, 420, someEqualsPotentialGuestValues));
+        OptimizedRooms result = roomOccupancyService.optimizeRooms(new RoomOccupancy(15000, 12000, randomValues.toArray(new BigDecimal[0])));
         assertNotNull(result);
     }
 
